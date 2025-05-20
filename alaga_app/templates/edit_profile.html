@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Care Profile - Alaga</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon"/>
+    <style>
+      .sidebar {
+        transition: transform 0.3s ease-in-out;
+      }
+      
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+        }
+        .sidebar.open {
+          transform: translateX(0);
+        }
+      }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-[Inter]">
+    <div class="flex h-screen relative">
+      <!-- Overlay -->
+      <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden" onclick="toggleSidebar()"></div>
+      
+      <!-- Sidebar -->
+      <aside id="sidebar" class="sidebar fixed md:static w-64 bg-[#BC6FB7] text-white p-6 flex flex-col h-full z-30">
+        <div class="flex flex-col items-start mb-8">       
+          <h1 class="text-3xl font-bold font-montserrat">Hi, {{ fullname.split()[0] }}! </h1>
+          <p class="text-white-600 text-sm mt-2">You're doing a great job. <br> We're proud of you.</p>
+        </div>
+      
+        <!-- Care Profiles Section -->
+        <div class="mb-8">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-white/60 text-sm font-medium">Care Profiles</h2>
+            <span class="text-xs text-white/60 bg-white/10 px-2 py-0.5 rounded-full">{{ profiles|length }}/3</span>
+          </div>
+          <div class="space-y-2">
+            {% for profile in profiles %}
+              <form action="{{ url_for('switch_profile', profile_id=profile.id) }}" method="post">
+                <button type="submit" class="w-full flex items-center space-x-3 {% if session.get('active_profile_id')|int == profile.id %}bg-white/10{% endif %} rounded-lg p-2 hover:bg-white/20 transition">
+                  <div class="w-8 h-8 rounded-full 
+                    {% if loop.index % 3 == 0 %}bg-green-400{% elif loop.index % 3 == 1 %}bg-pink-400{% else %}bg-blue-400{% endif %} 
+                    flex items-center justify-center font-medium text-sm">
+                    {{ profile.care_recipient[:1] }}{{ profile.relationship[:1] }}
+                  </div>
+                  <span>{{ profile.care_recipient }}</span>
+                </button>
+              </form>
+            {% endfor %}
+          </div>
+          {% if profiles|length < 3 %}
+            <a href="{{ url_for('care_profiles') }}" class="w-full block text-sm text-white/60 hover:text-white mt-2 text-left pl-2"> + Add Profiles </a>
+          {% else %}
+            <a href="{{ url_for('care_profiles')}}" class="w-full block text-sm text-white/60 hover:text-white mt-2 text-left pl-2"> View Care Profiles </a>
+          {% endif %}
+        </div>
+
+        <!-- Main Menu (in sidebar) -->
+        <nav class="flex-1">
+          <h2 class="text-white/80 text-sm font-medium mb-3">Main Menu</h2>
+          <div class="space-y-1">
+            <!--Home-->
+            <a href="{{ url_for('dashboard') }}" class="flex items-center space-x-3 rounded-lg p-3 hover:bg-white/20 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <span>Home</span>
+            </a>
+            <!--To do-->
+            <a href="{{ url_for('todo') }}" class="flex items-center space-x-3 rounded-lg p-3 hover:bg-white/10 transition">
+              <i class="fa-solid fa-list-check"></i>
+              <span>To do</span>
+            </a>
+            <!--Medications-->
+            <a href="{{ url_for('medications') }}" class="flex items-center space-x-3 rounded-lg p-3 hover:bg-white/10 transition">
+              <i class="fa-solid fa-pills"></i>
+              <span>Medications</span>
+            </a>
+            <!--Health Records-->
+            <a href="{{ url_for('health_records') }}" class="flex items-center space-x-3 rounded-lg p-3 hover:bg-white/10 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <span>Health Records</span>
+            </a>
+          </div>
+        </nav>
+
+        <!-- User Profile -->
+        <div class="mt-auto pt-4 border-t border-white/10">
+          <a href="{{ url_for('view_profile') }}" class="w-full flex items-center space-x-3 rounded-lg p-2 hover:bg-white/10 transition">
+            <div class="w-8 h-8 rounded-full bg-indigo-400 flex items-center justify-center font-medium text-sm">{{ initials }}</div>
+            <div class="text-left">
+              <div class="text-sm font-medium">{{ fullname }}</div>
+              <div class="text-xs text-white/60">View Profile</div>
+            </div>
+          </a>
+        </div>
+      </aside>    
+
+      <!-- Main Content -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        {% include 'includes/header.html' %}
+
+
+        <main class="flex-1 overflow-auto p-6">
+          <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-[#BC6FB7] px-6 py-4">
+              <h2 class="text-xl font-bold text-white">Edit Care Profile</h2>
+            </div>
+            <div class="p-6">
+              <form method="POST" action="{{ url_for('edit_profile', profile_id=profile.id) }}" class="space-y-4">
+                <div>
+                  <label for="care_recipient" class="block text-sm font-medium text-gray-700 mb-1">Who are you caring for?</label>
+                  <input 
+                    type="text" 
+                    id="care_recipient" 
+                    name="care_recipient" 
+                    value="{{ profile.care_recipient }}" 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#BC6FB7]"
+                    required
+                  >
+                </div>
+                
+                <div>
+                  <label for="relationship" class="block text-sm font-medium text-gray-700 mb-1">Your relationship to them</label>
+                  <input 
+                    type="text" 
+                    id="relationship" 
+                    name="relationship" 
+                    value="{{ profile.relationship }}" 
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#BC6FB7]"
+                    required
+                  >
+                </div>
+                
+                <div class="flex justify-between pt-4">
+                  <a href="{{ url_for('care_profiles') }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition">
+                    Cancel
+                  </a>
+                  <button type="submit" class="px-4 py-2 bg-[#BC6FB7] text-white rounded-md hover:bg-[#a55ea0] transition">
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('hidden');
+      }
+    </script>
+</body>
+</html>

@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alaga - About Us</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="../static/images/favicon.ico" type="image/x-icon"/>
+    <script>
+
+        tailwind.config = {
+            theme: {
+            extend: {
+                colors: {
+                primary: {
+                    light: '#D998D5',
+                    DEFAULT: '#BC6FB7',
+                    dark: '#9A5495'
+                },
+                secondary: {
+                    light: '#9BA3DF',
+                    DEFAULT: '#8491D3',
+                    dark: '#6A76B8'
+                },
+                accent: {
+                    light: '#EF9A9A',
+                    DEFAULT: '#E57373',
+                    dark: '#D05454'
+                },
+                },
+                backgroundImage: {
+                'hero-pattern': "url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23bc6fb7\" fill-opacity=\"0.05\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
+                'wave-pattern': "url('data:image/svg+xml,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1440 320\"%3E%3Cpath fill=\"%23bc6fb7\" fill-opacity=\"0.1\" d=\"M0,224L48,202.7C96,181,192,139,288,138.7C384,139,480,181,576,208C672,235,768,245,864,218.7C960,192,1056,128,1152,101.3C1248,75,1344,85,1392,90.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z\"%3E%3C/path%3E%3C/svg%3E')",
+                }
+            }
+            }
+            
+        }
+    </script>
+
+    <!-- for the pricing cards-->
+    <style>
+        .plan-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .plan-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .popular-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: #ffecb4;
+        color: rgb(206, 37, 149);
+        padding: 0.25rem 0.75rem;
+        font-size: 0.75rem;
+        font-weight: bold;
+        border-top-right-radius: 0.5rem;
+        border-bottom-left-radius: 0.5rem;
+        }
+    </style>
+
+</head>
+<body class="min-h-screen bg-gray-50 font-[Inter] bg-hero-pattern">
+ 
+  
+    
+      <!-- Main Content -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <!--  header modified, made it sticky -->
+        <header class="fixed top-0 left-0 right-0 bg-white py-3 px-6 shadow-md flex items-center justify-between z-50">
+          <div class="flex items-center">
+            <img src="{{ url_for('static', filename='images/alaga_logo_trans.png') }}" alt="Alaga Logo" class="h-8 w-8 mr-2">
+            <h2 class="text-3xl font-bold text-primary bg-clip-text text-[#BC6FB7]">Alaga</h2>
+          </div>
+          <div class="flex items-center space-x-4">
+            <a href="#" onclick="history.back()" class="px-4 py-2 text-sm text-gray-500 hover:text-white hover:bg-primary rounded-md transition duration-200 font-medium">
+              Back to Alaga
+            </a>                  
+          </div>    
+        </header>
+      
+
+        <!--              -----------------------      F O C U S   H E R E   --------------                -->
+        
+        <main class="flex-1 overflow-auto">
+            <!-- Hero Section -->
+            <div class="bg-gradient-to-br from-primary/10 via-secondary/10 to-white py-20 relative overflow-hidden">
+                <div class="absolute inset-0 bg-wave-pattern bg-bottom bg-no-repeat opacity-70"></div>
+                <div class="max-w-6xl mx-auto px-6 relative z-10">
+                    <div class="text-center mb-8">
+                        <span class="inline-block px-4 py-3 bg-primary/10 font-bold text-[#596BC7]  rounded-full text-md mb-4 mt-6">Your Care. Your Way.</span>
+                        <div class="flex justify-center mb-7 mt-4">
+                            <img src="{{ url_for('static', filename='images/alaga_logo_trans.png') }}" 
+                                 alt="Alaga Logo" 
+                                 class="h-16 w-16" /> 
+                        </div>                    
+                        <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                            <span class="bg-clip-text text-[#BC6FB7]">About Alaga</span>
+                        </h1>
+                        <p class="text-xl text-gray-600 max-w-2xl mx-auto">Empowering families and caregivers to navigate life-limiting illnesses — with the best care.</p>
+                    </div>
+                </div>
+                
+                <!-- some bongga decorative elements -->
+                <div class="hidden md:block absolute -bottom-10 -left-10 w-40 h-40 bg-primary/5 rounded-full"></div>
+                <div class="hidden md:block absolute top-20 right-20 w-20 h-20 bg-secondary/10 rounded-full"></div>
+                <div class="hidden md:block absolute bottom-40 right-10 w-28 h-28 bg-accent/10 rounded-full"></div>
+            </div>
+            
+            <!-- Mission section -->
+            <div class="max-w-6xl mx-auto px-6 py-20">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <div class="flex flex-col md:flex-row">
+                        <div class="md:w-1/2 p-8 md:p-12">
+                            
+                            <h2 class="text-3xl font-bold text-secondary mb-6">Our Mission</h2>
+                            <p class="text-gray-700 mb-4 leading-relaxed text-justify">Alaga is designed to help family members and caregivers manage care profiles for loved ones with chronic conditions or elderly individuals who need assistance.</p>
+                            <p class="text-gray-700 mb-6 leading-relaxed text-justify">Our mission is to simplify the caregiving process, reduce stress, and improve health outcomes through organized care management.</p>
+                            <div class="flex items-center space-x-3">   
+                                <span class="text-sm text-gray-500">Join our community of caregivers.</span>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 bg-gradient-to-br from-primary to-secondary p-1">
+                            <img src="{{ url_for('static', filename='images/about_us.png') }}" alt="Alaga in diff. screens" class="w-25 h-25 mx-auto object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Features of Alaga, with Card holders-->
+            <div class="bg-gradient-to-b from-white to-primary/5 py-20">
+                <div class="max-w-6xl mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">WHAT WE OFFER</span>
+                        <h2 class="text-3xl font-bold text-[#8491D3] mb-4">Key Features</h2>
+                        <p class="text-gray-600 max-w-2xl mx-auto">Comprehensive tools designed specifically for caregivers</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Feature 1 -->
+                        <div class="bg-white rounded-xl p-6 shadow-lg transform transition duration-300 hover:-translate-y-2 border-b-4 border-primary">
+                            <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-6 mx-auto shadow-md">
+                                <i class="fas fa-user-friends text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 text-center mb-3">Multiple Care Profiles</h3>
+                            <p class="text-gray-600 text-center">Manage up care profiles for your loved ones, all in one place.</p>
+                        </div>
+                        
+                        <!-- Feature 2 -->
+                        <div class="bg-white rounded-xl p-6 shadow-lg transform transition duration-300 hover:-translate-y-2 border-b-4 border-secondary">
+                            <div class="w-14 h-14 bg-gradient-to-br from-secondary to-secondary-light rounded-lg flex items-center justify-center mb-6 mx-auto shadow-md">
+                                <i class="fas fa-pills text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 text-center mb-3">Medication Reminder</h3>
+                            <p class="text-gray-600 text-center">Never miss a dose with our medication tracking and reminder system.</p>
+                        </div>
+                        
+                        <!-- Feature 3 -->
+                        <div class="bg-white rounded-xl p-6 shadow-lg transform transition duration-300 hover:-translate-y-2 border-b-4 border-primary-light">
+                            <div class="w-14 h-14 bg-gradient-to-br from-primary-light to-primary rounded-lg flex items-center justify-center mb-6 mx-auto shadow-md">
+                                <i class="fas fa-tasks text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 text-center mb-3">To-Do List</h3>
+                            <p class="text-gray-600 text-center">Keep track of appointments, tasks, and care responsibilities.</p>
+                        </div>
+                        
+                        <!-- Feature 4 -->
+                        <div class="bg-white rounded-xl p-6 shadow-lg transform transition duration-300 hover:-translate-y-2 border-b-4 border-accent">
+                            <div class="w-14 h-14 bg-gradient-to-br from-accent to-accent-light rounded-lg flex items-center justify-center mb-6 mx-auto shadow-md">
+                                <i class="fa-solid fa-notes-medical text-white"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 text-center mb-3">Health Recorder</h3>
+                            <p class="text-gray-600 text-center">Monitor vital health signs, biometrics, and add important medical notes over time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pricing CARDS Section -->
+            <div class="py-20 bg-white">
+                <div class="max-w-6xl mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <span class="inline-block px-4 py-1 bg-secondary/10 text-blue-800 rounded-full text-sm font-medium mb-4">PLANS & PRICING</span>
+                        <h2 class="text-3xl font-bold text-[#8491D3] mb-4">Choose Your Plan</h2>
+                        <p class="text-gray-600 max-w-2xl mx-auto">Select the package that best fits your caregiving needs</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Basic Plan -->
+                        <div class="bg-white rounded-lg shadow-sm overflow-hidden plan-card">
+                            <div class="bg-[#a4c1e8] px-4 py-6 text-center">
+                            <h2 class="text-2xl font-bold text-white">Basic</h2>
+                            </div>
+                            <div class="p-6">
+                            <div class="text-center mb-6">
+                                <span class="text-4xl font-bold text-[#DB6774]">Free</span>
+                                <p class="mt-2 text-gray-600">All features, but limited</p>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                                <span class="font-medium">To-Do List</span>
+                                <span>up to 3 tasks only</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                                <span class="font-medium">Medication Tracker</span>
+                                <span>1 med only</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                                <span class="font-medium">Health Recorder</span>
+                                <span>heart-rate only</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                                <span class="font-medium">Care Profiles</span>
+                                <span>1 care profile only</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8">
+                                
+                            </div>
+                            </div>
+                        </div>
+                        
+                       
+                        
+                        <!-- Advanced Plan -->
+                        <div class="bg-white rounded-lg shadow-sm overflow-hidden plan-card">
+                            <div class="bg-[#5b7fd9] px-4 py-6 text-center">
+                            <h2 class="text-2xl font-bold text-white">Advanced</h2>
+                            </div>
+                            <div class="p-6">
+                            <div class="text-center mb-6">
+                                <span class="text-4xl font-bold text-[#DB6774]">₱79</span>
+                                <span class="text-gray-500">/month</span>
+                                <p class="mt-2 text-gray-600">All features, with some limits</p>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                                <span class="font-medium">To Do List</span>
+                                <span>up to 5 tasks only</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                                <span class="font-medium">Medication Tracker</span>
+                                <span>up to 3 meds only</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                                <span class="font-medium">Health Recorder</span>
+                                <span>up to 5 records only</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                                <span class="font-medium">Care Profiles</span>
+                                <span>up to 3 profiles</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8">
+                            
+                            </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Premium Plan -->
+                        <div class="bg-white rounded-lg shadow-sm overflow-hidden plan-card relative">
+                            <div class="popular-badge">POPULAR</div>
+                            <div class="bg-gradient-to-r from-primary to-secondary px-4 py-6 text-center">
+                              <h2 class="text-2xl font-bold text-white">Premium</h2>
+                            </div>
+                            
+                            <div class="p-6">
+                              <div class="text-center mb-6">
+                                <span class="text-4xl font-bold text-[#DB6774]">₱199</span>
+                                <span class="text-gray-500">/month</span>
+                                <p class="mt-2 text-gray-600">All features, unlimited</p>
+                              </div>
+                              
+                              <div class="space-y-4">
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                                  <span class="font-medium">To-Do List</span>
+                                  <span class="text-medium">∞ tasks</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                                  <span class="font-medium">Medication Tracker</span>
+                                  <span>∞ medications</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                                  <span class="font-medium">Health Records</span>
+                                  <span>∞ features</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                                  <span class="font-medium">Care Profiles</span>
+                                  <span class="text-medium">∞ care profiles</span>
+                                </div>
+                              </div>
+                              
+                              <div class="mt-8">
+                        
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                    
+                <!-- FAQ  -->
+                <div class="mt-16 max-w-6xl mx-auto px-6">
+                    <div class="bg-[#fff6f8] p-8 px-4 md:px-12 rounded-xl">
+                        <h3 class="text-xl font-bold text-[#8491D3] mb-6 text-center">Frequently Asked Questions</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="font-bold text-lg text-[#DB6774] mb-2">Can I change plans later?</h4>
+                                <p class="text-gray-600">Yes, you can upgrade or downgrade your plan at any time. Changes will take effect at the start of your next billing cycle.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-[#DB6774] mb-2">Is there a free trial for paid plans?</h4>
+                                <p class="text-gray-600">Yes, we offer a 14-day free trial for both our Advanced and Premium plans.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            <!-- Our Story -->
+            <div class="mt-20 bg-gradient-to-b from-primary/5 to-white py-20">
+                <div class="max-w-6xl mx-auto px-6">
+                  <div class="text-center mb-12">
+                    <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">OUR JOURNEY</span>
+                    <h2 class="text-3xl font-bold text-[#8491D3] mb-4">Our Story</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">How Alaga came alive.</p>
+
+                  </div>
+              
+                  <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                      <!-- Text Section -->
+                      <div class="md:w-full px-6 py-8">
+                        <p class="text-gray-700 mb-4 leading-relaxed text-justify">
+                          Alaga was born from personal experience. I, Sophia Mendoza, the founder, witnessed firsthand the challenges of caring for multiple family members with chronic conditions - my Lolo suffering from stroke from my Mom's side, my Lola from rheumatic diseases, and my other Lolo from Parkinson's from my Dad's side. Growing up in a household of caregivers, doctors, and nurses, I have felt the overwhelming stress of managing medications, appointments, and health data across multiple people. These people may be gone now, but they inspired me to create this platform for others.
+                        </p>
+                        <p class="text-gray-700 mb-6 leading-relaxed text-justify">
+                          We created Alaga to address these challenges and provide a comprehensive solution for caregivers and families, yet is still budget-friendly and easy to use. The name "Alaga" comes from the Filipino word meaning "to care for" or "to nurture," reflecting our commitment to supporting those who provide care to others.
+                        </p>
+                        <blockquote class="border-l-4 border-primary pl-4 italic text-gray-600">
+                          "To love is to care. Even when it's hard. Even when it hurts."
+                          <footer class="text-sm text-gray-500 mt-2 not-italic">— Sophia Mendoza, Founder</footer>
+                        </blockquote>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            
+            <!-- Team Section -->
+            <div class="py-5 bg-white">
+                <div class="max-w-6xl mx-auto px-6">
+                  <div class="text-center mb-12">
+                    <span class="inline-block px-4 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-medium mb-4">
+                      MEET OUR TEAM
+                    </span>
+                    <h2 class="text-3xl font-bold text-[#8491D3] mb-4">The People Behind Alaga</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto"><strong> LecheFLANS </strong> — we are a team of 1st Year BS Software Engineering students from Central Philippine University, Iloilo City.</p>
+                  </div>
+              
+                  <ul class="divide-y divide-gray-300 text-center font-bold text-[#AB68C7] ">
+                    <li class="py-2">Sophia Mendoza</li>
+                    <li class="py-2">Ahron Alera</li>
+                    <li class="py-2">Lemuel Luceno</li>
+                    <li class="py-2">Nherf Gempasao</li>
+                    <li class="py-2">Fletcher Malala</li>
+                  </ul>
+                </div>
+            </div>
+        
+            <!-- Contact Us Section -->
+            <div class="bg-gradient-to-t from-secondary/10 to-white py-20">
+                <div class="max-w-6xl mx-auto px-6">
+                    <div class="text-center mb-12">
+                        <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">GET IN TOUCH</span>
+                        <h2 class="text-3xl font-bold text-[#8491D3] mb-4">Contact Us</h2>
+                        <p class="text-gray-600 max-w-2xl mx-auto">We'd love to hear from you! If you have questions, feedback, or need support, please reach out.</p>
+                    </div>
+                    <div class="text-center">
+                        <ul class="space-y-3 text-gray-700">
+                            <li>
+                            <i class="fas fa-envelope mr-2 text-secondary"></i>
+                            alaga.secpu@gmail.com 
+                            </li>
+                            <li>
+                            <i class="fas fa-phone mr-2 text-secondary"></i>
+                            09475980915
+                            </li>
+                            <li>
+                            <i class="fas fa-map-marker-alt mr-2 text-secondary"></i>
+                            Central Philippine University, Iloilo, Philippines
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                    
+            <!---------------------------------------------------------------------------------------------------- Terms & Conditions Content ------------------------------------------>
+            <div class="bg-white py-20">
+                <div class="max-w-6xl mx-auto px-6">
+                    <!--header-->
+                    <div class="bg-[#F9F4FB] py-1 px-6 rounded-t-xl">
+                        <div class="max-w-4xl mx-auto mt-10">
+                            <div class="text-center mb-10">
+                                <h1 class="text-4xl font-bold text-[#BC6FB7] mb-2">Terms & Conditions</h1>
+                                <p class="text-gray-500">Last Updated: May 4, 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <!--intro/preamble-->
+                    <div class="bg-white rounded-xl shadow-sm p-8 mb-6">
+                        <h2 class="text-xl font-bold text-[#8491D3] mb-4 justify-between">1. Preamble</h2>
+                        <p class="text-gray-700 mb-4 text-justify">These Terms and Conditions ("Terms") govern your access to and use of the Alaga web application and service.</p>
+                        <p class="text-gray-700 text-justify">By accessing or using Alaga, you agree to be bound by these Terms. If you disagree with any part of the Terms, you may not access Alaga.</p>
+                    </div>
+                        
+                    <!-- def of terms -->
+                    <div class="bg-white rounded-xl shadow-sm p-8 mb-6">
+                        <h2 class="text-xl font-bold text-[#8491D3] mb-4">2. Definitions</h2>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-700 text-justify">
+                            <li><span class="font-medium text-justify">User:</span> Any individual who accesses or uses Alaga, the one creating and managing care profiles.</li>
+                            <li><span class="font-medium text-justify">Care Profile:</span> A profile created for an individual receiving care.</li>
+                            <li><span class="font-medium text-justify">Content:</span> All information, text, data, and materials uploaded, entered, or otherwise transmitted by Users in connection with their use of Alaga.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- account user -->
+                    <div class="bg-white rounded-xl shadow-sm p-8 mb-6">
+                        <h2 class="text-xl font-bold text-[#8491D3] mb-4 justify-between">3. Account Registration</h2>
+                        <p class="text-gray-700 mb-3 text-justify">To use certain features of the Alaga, you must register for an account. When you register, you agree to provide accurate, current, and complete information about yourself.</p>
+                        <p class="text-gray-700 mb-3 text-justify">You are responsible for safeguarding your password and for all activities that occur under your account. Alaga shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages relating to your use of the platform or access to your account, including but not limited to those arising from unauthorized access. </p>
+                        <p class="text-gray-700 text-justify">We reserve the right to disable any user account at any time if, in our opinion, you have failed to comply with these Terms.</p>
+                    </div>
+                    
+                    <!-- Care Profiles-->
+                    <div class="bg-white rounded-xl shadow-sm p-8 mb-6">
+                        <h2 class="text-xl font-bold text-[#8491D3] mb-4">4. Care Profiles</h2>
+                        <p class="text-gray-700 mb-3 text-justify">Alaga allows Caregivers to create and manage up Care Profiles. By creating a Care Profile, you represent and warrant that:</p>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-700 text-justify">
+                            <li>You have obtained all necessary consents and authorizations from the individual for whom you are creating the Care Profile, or you have legal authority to manage their care.</li>
+                            <li>All information provided in the Care Profile is accurate and up-to-date.</li>
+                            <li>You will update the Care Profile information promptly if there are any changes.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- user provided data -->
+                    <div class="bg-white rounded-xl shadow-sm p-8 mb-6">
+                        <h2 class="text-xl font-bold text-[#8491D3] mb-4">5. User-Provided Data</h2>
+                        <h3 class="text-gray-700 font-semibold mb-3 text-justify">Alaga is NOT a professional medical tool.  It does not replace professional medical advice, diagnosis, or treatment. </h3>
+                        <p class="text-gray-700 mb-3 text-justify">Alaga allows you to record and track health information. Please note:</p>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-700 text-justify">
+                            <li>Alaga is not intended to provide medical advice, diagnosis, or treatment.</li>
+                            <li>Alaga is not a substitute for professional medical advice, diagnosis, or treatment.</li>
+                            <li>Always seek the advice of qualified healthcare providers with any questions regarding medical conditions.</li>
+                            <li>Never disregard professional medical advice or delay seeking it because of something you have read on Alaga.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Privacy  -->
+                    <div class="bg-white rounded-xl shadow-sm p-8 mb-6">
+                        <h2 class="text-xl font-bold text-[#8491D3] mb-4">6. Privacy</h2>
+                        <p class="text-gray-700 mb-3 text-justify">Your privacy is important to us. Our Privacy Policy, which is incorporated into these Terms, explains how we collect, use, and disclose information about you and the individuals in your Care Profiles.</p>
+                        <p class="text-gray-700 text-justify">By using Alaga, you consent to the collection, use, and disclosure of information as described in our Privacy Policy.</p>
+                    </div>
+                    
+                    <!-- User Responsibilities  -->
+                    <div class="bg-white rounded-xl shadow-sm p-8 mb-6">
+                        <h2 class="text-xl font-bold text-[#8491D3] mb-4">7. User Responsibilities</h2>
+                        <p class="text-gray-700 mb-3 text-justify">As a User of Alaga, you agree to:</p>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-700 text-justify">
+                            <li>Use Alaga only for lawful purposes and in accordance with these Terms.</li>
+                            <li>Not use Alaga in any way that could damage, disable, overburden, or impair Alaga.</li>
+                            <li>Not attempt to gain unauthorized access to any part of Alaga or any systems or networks connected to Alaga.</li>
+                            <li>Not use Alaga to transmit any content that is unlawful, harmful, threatening, abusive, harassing, defamatory, vulgar, obscene, or otherwise objectionable.</li>
+                            <li>Not use Alaga to impersonate any person or entity or falsely state or otherwise misrepresent your affiliation with a person or entity.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Limitation of Liability -->
+                    <div class="bg-white rounded-xl shadow-sm p-8 mb-6">
+                        <h2 class="text-xl font-bold text-[#8491D3] mb-4">8. Limitation of Liability</h2>
+                        <p class="text-gray-700 mb-3 text-justify">In no event shall Alaga, its directors, employees, partners, agents, suppliers, or affiliates be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from:</p>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-700 text-justify">
+                            <li>Your access to or use of or inability to access or use Alaga;</li>
+                            <li>Any conduct or content of any third party on Alaga;</li>
+                            <li>Any content obtained from Alaga; and</li>
+                            <li>Unauthorized access, use, or alteration of your transmissions or content.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- disclaimer  -->
+                    <div class="bg-white rounded-xl shadow-sm p-8 mb-6">
+                        <h2 class="text-xl font-bold text-[#8491D3] mb-4">9. Disclaimer</h2>
+                        <p class="text-gray-700 mb-3 text-justify">Alaga is provided on an "AS IS" and "AS AVAILABLE" basis. Alaga expressly disclaims all warranties of any kind, whether express or implied, including but not limited to the implied warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+                        <p class="text-gray-700 text-justify">Alaga makes no warranty that Alaga will meet your requirements, be available on an uninterrupted, secure, or error-free basis, or that the results that may be obtained from the use of Alaga will be accurate or reliable.</p>
+                    </div>
+                    
+                    
+                    <!-- changes to terms  -->
+                    <div class="bg-white rounded-xl shadow-sm p-8 mb-6">
+                        <h2 class="text-xl font-bold text-[#8491D3] mb-4">10. Changes to Terms</h2>
+                        <p class="text-gray-700 mb-3 text-justify">We reserve the right, at our sole discretion, to modify or replace these Terms at any time. We will provide notice of any changes by posting the new Terms on this page and updating the "Last Updated" date.</p>
+                        <p class="text-gray-700 text-justify">Your continued use of Alaga after any such changes constitutes your acceptance of the new Terms.</p>
+                    </div>
+                    
+                    <!-- terms acceptance -->
+                    <div class="bg-[#f8f4fb] border-l-4 border-[#BC6FB7] p-6 rounded-lg">
+                        <p class="text-gray-700 text-center font-medium text-justify">By using Alaga, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

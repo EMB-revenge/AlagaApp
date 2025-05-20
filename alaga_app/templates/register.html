@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - Alaga</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login_register.css') }}">   
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg text-center">
+        
+        <!-- Logo and Title -->
+        <img src="{{ url_for('static', filename='images/alaga_logo_trans.png') }}" alt="Alaga Logo" class="mx-auto h-24 mb-2 mt-10">
+        <h1 class="text-5xl font-bold text-[#BC6FB7] mb-2">Alaga</h1>
+        <h2 class="text-xl font-semibold text-[#596BC7] mb-2">Let's set you up</h2>
+        <p class="text-md text-gray-600 mb-4">Create your account to start your caregiving journey.</p>
+        
+        <!-- Form -->
+        <form method="POST" action="" class="space-y-3">
+            {{ form.hidden_tag() }}
+            
+            <div class="text-left">
+                <label class="form-label block text-sm font-semibold text-[#DB6774] mb-2">Full Name</label>
+                {{ form.fullname(class="form-input w-full border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-300", placeholder="Enter your full name (First, Last)") }}
+            </div>
+
+            <div class="text-left">
+                <label class="form-label block text-sm font-semibold text-[#DB6774] mb-2">Username</label>
+                {{ form.username(class="form-input w-full border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-300", placeholder="Choose a username") }}
+            </div>
+
+            <div class="text-left">
+                <label class="form-label block text-sm font-semibold text-[#DB6774] mb-2">Password</label>
+                {{ form.password(class="mb-3 form-input w-full border border-gray-300 rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-300", placeholder="Create a password") }}
+            </div>
+
+            {{ form.submit(class="w-full bg-[#596BC7] hover:bg-indigo-900 text-white font-semibold py-3 rounded-full transition", value="Create Account") }}
+        </form>
+
+        <p class="text-gray-500 text-sm mt-6">Already have an account?</p>
+        <a href="{{ url_for('login') }}" class="block mt-2 text-[#596BC7]  hover:underline font-semibold">Log In</a>
+        <a href="{{ url_for('about_us') }}" class="text-[#BC6FB7] text-xs hover:underline font-semibold mt-3">About Us</a>
+    </div>
+</body>
+</html>

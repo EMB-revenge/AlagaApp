@@ -1,0 +1,17 @@
+<!-- Header -->
+<header class="bg-white py-3 px-6 shadow-sm flex items-center justify-between">
+    <div class="flex items-center">
+      <button onclick="toggleSidebar()" class="mr-4 md:hidden">
+        <i class="fa-solid fa-bars fa-lg" style="color: #8491d3;"></i>
+      </button>
+      <img src="{{ url_for('static', filename='images/alaga_logo_trans.png') }}" alt="Alaga Logo" class="h-8 w-8 mr-2">
+      <h2 class="text-3xl font-bold text-[#BC6FB7]">Alaga</h2>
+    </div>
+    <div class="flex items-center space-x-4">
+      <a href="{{ url_for('about_us') }}" class="px-4 py-2 text-sm text-gray-500 hover:text-white hover:bg-[#D998D5] rounded-md transition duration-200 font-medium">
+        About Us
+      </a>
+    </div>    
+  </header>
+  
+  

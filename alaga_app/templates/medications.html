@@ -1,0 +1,328 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alaga - Medications</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon"/>
+    {% include 'includes/sidebar_styles.html' %}
+
+    <style>
+      .medication-card {
+        animation: fadeIn 0.3s ease-in-out;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gray-50 font-[Inter]">
+    <div class="flex h-screen relative">
+      <!-- Overlay -->
+      <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden" onclick="toggleSidebar()"></div>
+      
+      <!-- Sidebar -->
+      {% include 'includes/sidebar.html' %}
+      
+      <!-- Not really the super main, but main Content -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        {% include 'includes/header.html' %}
+        
+        <!-- main MAIN content -->
+        <main class="flex-1 overflow-auto p-6" id="main-content">
+            <!-- Care Summary -->
+            <div class="mb-6">
+              <div class="mb-2"> 
+                <h2 class="text-4xl font-bold text-[#596BC7]">Medications</h2>
+                {% if active_profile %}
+                <p class="text-gray-600 text-sm">Ensure {{ active_profile.care_recipient }} takes their meds on time!</p>
+                {% else %}
+                <p class="text-gray-600 text-sm">Please select a care profile first</p>
+                {% endif %}
+              </div>
+            </div>
+          
+            <!-- Today's Date -->
+            <div class="bg-gradient-to-r from-pink-400 to-purple-500 rounded-lg shadow-sm p-4 text-white flex items-center justify-between mb-4">
+              <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                  <line x1="16" x2="16" y1="2" y2="6"/>
+                  <line x1="8" x2="8" y1="2" y2="6"/>
+                  <line x1="3" x2="21" y1="10" y2="10"/>
+                </svg>
+                <span id="current-date">Today's date: </span>
+              </div>
+            </div>
+            
+            {% if not has_profiles %}
+            <!-- Show welcome message when no profiles exist -->
+              {% include 'includes/welcome_message.html' %}
+            {% else %}
+            <!-- Buttons: Edit and See History -->
+            <div class="flex justify-end space-x-3 mb-4">
+              <button id="editMedicationsBtn" class="px-4 py-2 bg-indigo-300 text-white rounded hover:bg-indigo-400 transition-colors">
+                Edit
+              </button>
+              <button id="seeHistoryBtn" class="px-4 py-2 bg-[#BC6FB7] text-white rounded hover:bg-[#E57DDE] transition-colors">
+                Med History
+              </button>
+            </div>
+
+            <!--CARDS-->
+            <div class="card bg-white rounded-lg shadow-md overflow-hidden mb-6">
+              <div class="bg-[#8491D3] px-4 py-3 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white">Today</h3>
+              </div>
+        
+              <div class="divide-y" id="today-medications">
+                <div class="p-6 text-center text-gray-500" id="today-empty-state">
+                  No meds scheduled for today. Click the + button to add.
+                </div>
+              </div>
+            </div>
+        
+            <div class="card bg-white rounded-lg shadow-md overflow-hidden mb-6">
+              <div class="bg-[#8491D3] px-4 py-3 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white">Tomorrow</h3>
+              </div>
+        
+              <div class="divide-y" id="tomorrow-medications">
+                <div class="p-6 text-center text-gray-500" id="tomorrow-empty-state">
+                  No meds scheduled for tomorrow. Click the + button to add.
+                </div>
+              </div>
+            </div>
+        
+            <div class="card bg-white rounded-lg shadow-md overflow-hidden mb-6">
+              <div class="bg-[#8491D3] px-4 py-3 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white">Upcoming</h3>
+              </div>
+          
+              <div class="divide-y" id="upcoming-medications">
+                <div class="p-6 text-center text-gray-500" id="upcoming-empty-state">
+                  No upcoming meds scheduled. Click the + button to add.
+                </div>
+              </div>
+            </div>
+            {% endif %}
+        </main>
+
+        <!-- Medication History Page -->
+        <div id="history-page" class="flex-1 overflow-auto p-6 hidden">
+          <div class="mb-6">
+            <div class="mb-2 flex justify-between items-center"> 
+              <div>
+                <h2 class="text-4xl font-bold text-[#596BC7]">Med History</h2>
+                {% if active_profile %}
+                <p class="text-gray-600 text-sm">Ensure {{ active_profile.care_recipient }} taken and skipped medications.</p>
+                {% else %}
+                <p class="text-gray-600 text-sm">Please select a care profile first</p>
+                {% endif %}
+              </div>
+              <button id="backToMainBtn" class="px-4 py-2 bg-[#BC6FB7] text-white rounded hover:bg-[#E57DDE] transition-colors">
+                Back
+              </button>
+            </div>
+          </div>
+
+          <div class="card bg-white rounded-lg shadow-md overflow-hidden mb-6">
+            <div class="bg-[#8491D3] px-4 py-3 flex justify-between items-cente">
+              <h3 class="text-xl font-medium text-white">History</h3>
+            </div>
+
+            <div class="divide-y" id="medication-history">
+              <div class="p-6 text-center text-gray-500" id="history-empty-state">
+                No med history available yet.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Medication Button -->
+    {% if has_profiles %}
+    <button id="openAddMedication" class="fixed bottom-6 right-6 bg-[#BC6FB7] hover:bg-[#E57DDE] text-white p-4 rounded-full shadow-lg transition-all z-40">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+    </button>
+    {% endif %}
+    
+    <!-- Add Medication Modal -->
+    <div id="addMedicationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-80 max-h-[90vh] overflow-y-auto">
+        <h2 class="text-2xl font-bold mb-4 text-[#8491D3]">Add a Medication</h2>
+        <form id="addMedicationForm">
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-[#DB6774]">What's the name of the medicine?</label>
+            <input type="text" name="name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="e.g. Metformin, Simvastatin" required>
+          </div>
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-gray-700">What's the dosage? (optional)</label>
+            <input type="text" name="dosage" class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="e.g. 5 mg, 1 tablet">
+          </div>
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-gray-700">Any instructions (IN)? (optional)</label>
+            <input type="text" name="instructions" class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="e.g. Take with food, before bed">
+          </div>
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-[#DB6774]">What's the dosage form?</label>
+            <select name="dosageType" required class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+              <option value="tablet">Tablet</option>
+              <option value="capsule">Capsule</option>
+              <option value="powder">Powder</option>
+              <option value="solution">Solution</option>
+              <option value="injection">Injection</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-[#DB6774]">When to start?</label>
+            <input type="date" name="startDate" required class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-[#DB6774]">And when to end?</label>
+            <input type="date" name="endDate" required class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-[#DB6774]">Time taken?</label>
+            <input type="time" name="time" required class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          <div class="flex justify-end space-x-2">
+            <button type="button" id="cancelAddMedication" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
+            <button type="submit" class="px-4 py-2 bg-[#BC6FB7] text-white rounded hover:bg-[#E57DDE]">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit Medications Modal -->
+    <div id="editMedicationsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-96 max-h-[90vh] overflow-y-auto">
+        <h2 class="text-2xl font-bold mb-4 text-[#8491D3]">Edit Medications</h2>
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-[#DB6774] mb-2">What medication would you like to edit?</label>
+          <select id="medicationSelect" class="block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Select a medication</option>
+          </select>
+        </div>
+        <form id="editMedicationForm" class="hidden">
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-[#DB6774]">What's the name of the medicine?</label>
+            <input type="text" name="name" required class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="e.g. Metformin, Simvastatin" required>
+          </div>
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-gray-700">What's the dosage? (optional)</label>
+            <input type="text" name="dosage" class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="e.g. 5 mg, 1 tablet">
+          </div>
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-gray-700">Any instructions? (optional)</label>
+            <input type="text" name="instructions" class="mt-1 block w-full border border-gray-300 rounded-md p-2" placeholder="e.g. Take with food, before bed">
+          </div>
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-[#DB6774]">What's the dosage form?</label>
+            <select name="dosageType" required class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+              <option value="tablet">Tablet</option>
+              <option value="capsule">Capsule</option>
+              <option value="powder">Powder</option>
+              <option value="solution">Solution</option>
+              <option value="injection">Injection</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-[#DB6774]">When to start?</label>
+            <input type="date" name="startDate" required class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-[#DB6774]">And when to end?</label>
+            <input type="date" name="endDate" required class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-[#DB6774]">Time taken?</label>
+            <input type="time" name="time" required class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          <div class="flex justify-between mt-6">
+            <button type="button" id="deleteMedicationBtn" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+              Delete
+            </button>
+            <div class="flex space-x-2">
+              <button type="button" id="cancelEditMedication" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+                Cancel
+              </button>
+              <button type="submit" class="px-4 py-2 bg-[#BC6FB7] text-white rounded hover:bg-[#E57DDE]">
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </form>
+        <div id="noMedicationSelected" class="text-center text-gray-500 py-4">
+          Please select a medication to edit
+        </div>
+        <div class="flex justify-end mt-4" id="editModalCloseBtn">
+          <button type="button" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteConfirmationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+        <h2 class="text-lg font-semibold mb-4">Confirm Deletion</h2>
+        <p class="mb-6">Are you sure you want to delete this medication? This action cannot be undone and will be erased from the history.</p>
+        <div class="flex justify-end space-x-2">
+          <button type="button" id="cancelDeleteBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+            No
+          </button>
+          <button type="button" id="confirmDeleteBtn" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+            Yes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Premium Upgrade Modal -->
+    <div id="premiumUpgradeModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+        <div class="mb-4 text-indigo-300">
+          <img src="{{ url_for('static', filename='images/alaga_logo_trans.png') }}" alt="Alaga Logo" class="mx-auto h-16 w-16 mb-4">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </div>
+        <h2 class="text-lg font-semibold mb-2">Upgrade to Alaga Premium</h2>
+        <p class="mb-6">You've reached the maximum of 3 medications. Upgrade to our premium plan to add unlimited medications.</p>
+        <div class="flex justify-center space-x-2">
+          <button type="button" id="closePremiumModal" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+            Maybe Later
+          </button>
+          <a href="{{ url_for('upgrade_premium') }}">
+            <button type="button" id="upgradePremiumBtn" class="px-4 py-2 bg-[#BC6FB7] text-white rounded hover:bg-[#E57DDE]">
+              Upgrade Now
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/medications.js') }}"></script>
+    <script>
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('hidden');
+      }
+    </script>
+  </body>
+</html>
