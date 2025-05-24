@@ -1,6 +1,6 @@
 <p align="center">
   <br>
-  <img width="200" src="static\images\alaga_logo_trans.png" alt="logo">
+  <img width="200" src="Alaga_UI_App\alaga_logo_trans.png" alt="logo">
   <br>
   <br>
 </p>
