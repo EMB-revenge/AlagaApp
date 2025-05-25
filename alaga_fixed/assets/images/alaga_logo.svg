@@ -1,0 +1,21 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="url(#logoGradient)" stroke="#2C5F8A" stroke-width="2"/>
+  
+  <!-- Heart symbol representing care -->
+  <path d="M100 140 C85 125, 60 110, 60 85 C60 70, 70 60, 85 60 C92 60, 98 65, 100 70 C102 65, 108 60, 115 60 C130 60, 140 70, 140 85 C140 110, 115 125, 100 140 Z" fill="white" opacity="0.9"/>
+  
+  <!-- Cross symbol for health -->
+  <rect x="95" y="75" width="10" height="30" fill="#E74C3C" rx="2"/>
+  <rect x="85" y="85" width="30" height="10" fill="#E74C3C" rx="2"/>
+  
+  <!-- Text 'A' for Alaga -->
+  <text x="100" y="170" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="white">A</text>
+</svg>

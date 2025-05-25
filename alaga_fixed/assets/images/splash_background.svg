@@ -1,0 +1,28 @@
+<svg width="375" height="812" viewBox="0 0 375 812" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="splashGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#357ABD;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2C5F8A;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.1);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="375" height="812" fill="url(#splashGradient)"/>
+  
+  <!-- Subtle pattern overlay -->
+  <circle cx="187.5" cy="406" r="200" fill="url(#centerGlow)"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="50" cy="150" r="3" fill="rgba(255,255,255,0.3)"/>
+  <circle cx="325" cy="200" r="2" fill="rgba(255,255,255,0.4)"/>
+  <circle cx="80" cy="600" r="2.5" fill="rgba(255,255,255,0.3)"/>
+  <circle cx="300" cy="650" r="1.5" fill="rgba(255,255,255,0.5)"/>
+  
+  <!-- Central logo area placeholder -->
+  <circle cx="187.5" cy="406" r="60" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+</svg>
