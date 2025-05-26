@@ -1,0 +1,91 @@
+name: alaga_app
+description: A comprehensive care management application for caregivers and their loved ones.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firebase dependencies
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  cloud_firestore: ^4.13.6
+  firebase_storage: ^11.5.6
+  firebase_messaging: ^14.7.10
+
+  # UI and Navigation
+  cupertino_icons: ^1.0.6
+  material_design_icons_flutter: ^7.0.7296
+  flutter_svg: ^2.0.9
+
+  # State Management
+  provider: ^6.1.1
+  riverpod: ^2.4.9
+  flutter_riverpod: ^2.4.9
+
+  # HTTP and API
+  http: ^1.1.2
+  dio: ^5.4.0
+
+  # Local Storage
+  shared_preferences: ^2.2.2
+  sqflite: ^2.3.0
+
+  # Date and Time
+  intl: ^0.19.0
+  table_calendar: ^3.0.9
+
+  # Image handling
+  image_picker: ^1.0.4
+  cached_network_image: ^3.3.0
+
+  # Notifications
+  flutter_local_notifications: ^16.3.2
+
+  # Utilities
+  uuid: ^4.2.1
+  path_provider: ^2.1.1
+  url_launcher: ^6.2.2
+  permission_handler: ^11.1.0
+
+  # Form validation
+  email_validator: ^2.1.17
+
+  # Charts and graphs for health data
+  fl_chart: ^0.65.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  build_runner: ^2.4.7
+
+flutter:
+  uses-material-design: true
+
+  # Assets
+  assets:
+    - assets/fonts
+    - assets/icons
+    - assets/images
+
+  # Fonts
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Roboto-Light.ttf
+          weight: 300
+
+# Flutter configuration
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21
