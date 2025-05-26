@@ -69,9 +69,9 @@ flutter:
 
   # Assets
   assets:
-    # - assets/images/
-    # - assets/icons/
-    - C:\Tests\Alaga\alaga_new_structure\alaga_fixed\assets\fonts
+    - assets/images/
+    - assets/icons/
+    - C:\Tests\Alaga\alaga_new_structure\assets\fonts
 
   # Fonts
   fonts:
