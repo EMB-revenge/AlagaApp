@@ -6,14 +6,15 @@ plugins {
 }
 
 android {
-    ndkVersion = "29.0.13113456"
+    ndkVersion = "27.0.12077973"
     namespace = "com.example.alaga_app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        // Add this line to enable core library desugaring
+        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -42,4 +43,9 @@ android {
 
 flutter {
     source = "../.."
+}
+
+// Add this dependencies block if it doesn't exist, or add the line to it if it does
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4") // Or the latest version
 }
