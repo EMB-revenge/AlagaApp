@@ -12,6 +12,7 @@ from ..models.user_model import UserInDB # Import UserInDB
 # Import FieldValue for server timestamps
 from google.cloud.firestore import FieldValue
 
+# Router for managing appointments
 router = APIRouter(
     prefix="/appointments",
     tags=["appointments"],
@@ -22,6 +23,7 @@ router = APIRouter(
 from ..main import db
 
 # Helper functions (updated for authorization, error handling, and removed db_client param)
+# Helper function to retrieve an appointment by its ID with authorization check
 async def get_appointment_by_id(appointment_id: str, current_user: UserInDB) -> Optional[AppointmentInDB]:
     """Get an appointment by ID and check authorization"""
     try:
@@ -57,6 +59,7 @@ async def get_appointment_by_id(appointment_id: str, current_user: UserInDB) -> 
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An unexpected error occurred: {str(e)}")
 
 # Routes (updated to use authentication, authorization, error handling, and server timestamps)
+# Endpoint to create a new appointment
 @router.post("/", response_model=AppointmentInDB, status_code=status.HTTP_201_CREATED)
 async def create_appointment(appointment: AppointmentCreate, current_user: UserInDB = Depends(get_authenticated_user)): # user_id (subject) is now part of AppointmentCreate model from backend.models.appointment_model
     try:
@@ -119,6 +122,7 @@ async def create_appointment(appointment: AppointmentCreate, current_user: UserI
         )
 
 # Update endpoint path and logic to use care_profile_id for filtering and authorization
+# Endpoint to get all appointments for a specific care profile, optionally filtered by a datetime range
 @router.get("/care-profile/{care_profile_id}", response_model=List[AppointmentInDB])
 async def get_care_profile_appointments(
     care_profile_id: str,
@@ -168,6 +172,7 @@ async def get_care_profile_appointments(
         )
 
 # Update endpoint path and logic to use care_profile_id
+# Endpoint to get all appointments for a specific care profile scheduled for today
 @router.get("/today/care-profile/{care_profile_id}", response_model=List[AppointmentInDB])
 async def get_today_appointments(care_profile_id: str, current_user: UserInDB = Depends(get_authenticated_user)):
     """Get all appointments for a specific care profile for today"""
@@ -214,6 +219,7 @@ async def get_today_appointments(care_profile_id: str, current_user: UserInDB = 
         )
 
 # Update endpoint path and logic to use care_profile_id
+# Endpoint to get upcoming appointments for a specific care profile
 @router.get("/upcoming/care-profile/{care_profile_id}", response_model=List[AppointmentInDB])
 async def get_upcoming_appointments(
     care_profile_id: str,
@@ -263,6 +269,7 @@ async def get_upcoming_appointments(
         )
 
 # Update get_appointment to use authentication and refined helper
+# Endpoint to get a specific appointment by its ID
 @router.get("/{appointment_id}", response_model=AppointmentInDB)
 async def get_appointment(appointment_id: str, current_user: UserInDB = Depends(get_authenticated_user)):
     # Use the helper function which includes authorization
@@ -276,6 +283,7 @@ async def get_appointment(appointment_id: str, current_user: UserInDB = Depends(
     return appointment_obj
 
 # Update update_appointment to use authentication, refined helper, and server timestamps
+# Endpoint to update an existing appointment
 @router.put("/{appointment_id}", response_model=AppointmentInDB)
 async def update_appointment(appointment_id: str, appointment_update: AppointmentUpdate, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -325,6 +333,7 @@ async def update_appointment(appointment_id: str, appointment_update: Appointmen
         )
 
 # Update delete_appointment to use authentication and refined helper
+# Endpoint to delete an appointment
 @router.delete("/{appointment_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_appointment(appointment_id: str, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -361,6 +370,7 @@ async def delete_appointment(appointment_id: str, current_user: UserInDB = Depen
         )
 
 # Update mark_appointment_complete to use authentication, refined helper, and server timestamps
+# Endpoint to mark an appointment as complete
 @router.post("/{appointment_id}/complete", response_model=AppointmentInDB)
 async def mark_appointment_complete(appointment_id: str, current_user: UserInDB = Depends(get_authenticated_user)):
     try:

@@ -22,6 +22,7 @@ from google.cloud.firestore import FieldValue
 # Use globally initialized Firestore client
 from ..main import db
 
+# Router for health record operations
 router = APIRouter(
     prefix="/health-records",
     tags=["health_records"],
@@ -30,7 +31,7 @@ router = APIRouter(
 
 # Helper functions (updated for authorization, error handling, and removed db_client param)
 async def get_health_record_by_id(record_id: str, current_user: UserInDB) -> Optional[HealthRecordInDB]:
-    """Get a health record by ID and check authorization"""
+    """Helper: Get a health record by ID, authorizing access for the current user."""
     try:
         record_ref = db.collection('health_records').document(record_id)
         record_doc = record_ref.get()
@@ -64,6 +65,7 @@ async def get_health_record_by_id(record_id: str, current_user: UserInDB) -> Opt
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An unexpected error occurred: {str(e)}")
 
 # Routes (updated to use authentication, authorization, error handling, and server timestamps)
+# API Endpoint: Create a new health record
 @router.post("/", response_model=HealthRecordInDB, status_code=status.HTTP_201_CREATED)
 async def create_health_record(record: HealthRecordCreate, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -122,6 +124,7 @@ async def create_health_record(record: HealthRecordCreate, current_user: UserInD
             detail=f"An unexpected error occurred during health record creation: {str(e)}"
         )
 
+# API Endpoint: Get all health records for a specific care profile
 @router.get("/care-profile/{care_profile_id}", response_model=List[HealthRecordInDB])
 async def get_care_profile_health_records(
     care_profile_id: str,
@@ -162,6 +165,7 @@ async def get_care_profile_health_records(
             detail=f"An unexpected error occurred: {str(e)}"
         )
 
+# API Endpoint: Get a specific health record by its ID
 @router.get("/{record_id}", response_model=HealthRecordInDB)
 async def get_health_record(record_id: str, current_user: UserInDB = Depends(get_authenticated_user)):
     # Use the helper function which includes authorization
@@ -176,6 +180,7 @@ async def get_health_record(record_id: str, current_user: UserInDB = Depends(get
 
     return record_obj
 
+# API Endpoint: Update an existing health record
 @router.put("/{record_id}", response_model=HealthRecordInDB)
 async def update_health_record(record_id: str, record_update: HealthRecordUpdate, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -224,6 +229,7 @@ async def update_health_record(record_id: str, record_update: HealthRecordUpdate
             detail="An unexpected error occurred during health record update"
         )
 
+# API Endpoint: Delete a health record
 @router.delete("/{record_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_health_record(record_id: str, current_user: UserInDB = Depends(get_authenticated_user)):
     try:

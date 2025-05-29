@@ -13,6 +13,7 @@ from .users import get_authenticated_user
 # Use globally initialized Firestore client
 from ..main import db
 
+# Router for managing care profiles
 router = APIRouter(
     prefix="/care_profiles",
     tags=["care_profiles"],
@@ -22,6 +23,7 @@ router = APIRouter(
 CARE_PROFILES_COLLECTION = "care_profiles"
 
 # Helper function to get a care profile by ID with authorization check
+# Helper function to retrieve a care profile by ID with authorization check
 async def get_care_profile_by_id_authorized(profile_id: str, current_user: UserInDB) -> Optional[CareProfileInDB]:
     """Get a care profile by ID and check if the current user is authorized to access it."""
     try:
@@ -50,6 +52,7 @@ async def get_care_profile_by_id_authorized(profile_id: str, current_user: UserI
 
 # --- CRUD Endpoints for Care Profiles (updated for authentication and authorization) ---
 
+# Endpoint to create a new care profile for the authenticated user
 @router.post("/", response_model=CareProfileInDB, status_code=201)
 async def create_care_profile(
     profile_data: CareProfileCreate = Body(...),
@@ -88,6 +91,7 @@ async def create_care_profile(
         print(f"Unexpected error during care profile creation: {e}")
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {str(e)}")
 
+# Endpoint to get a specific care profile by its ID, with authorization
 @router.get("/{profile_id}", response_model=CareProfileInDB)
 async def get_care_profile_by_id(
     profile_id: str,
@@ -104,6 +108,7 @@ async def get_care_profile_by_id(
 
     return profile
 
+# Endpoint to update an existing care profile by its ID, with authorization
 @router.put("/{profile_id}", response_model=CareProfileInDB)
 async def update_care_profile(
     profile_id: str,
@@ -147,6 +152,7 @@ async def update_care_profile(
         print(f"Unexpected error during care profile update: {e}")
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {str(e)}")
 
+# Endpoint to delete a care profile by its ID, with authorization
 @router.delete("/{profile_id}", status_code=204)
 async def delete_care_profile(
     profile_id: str,
@@ -176,6 +182,7 @@ async def delete_care_profile(
         print(f"Unexpected error during care profile deletion: {e}")
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {str(e)}")
 
+# Endpoint to list all care profiles created by the authenticated user
 @router.get("/user/me", response_model=List[CareProfileInDB])
 async def list_care_profiles_for_user(
     limit: int = 10,

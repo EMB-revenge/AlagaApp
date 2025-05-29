@@ -17,6 +17,7 @@ from ..models.reminder_model import (
 from .users import get_authenticated_user, authorize_care_profile_access # Assuming these are in users.py
 from ..models.user_model import UserInDB # Import UserInDB
 
+# Router for reminder operations
 router = APIRouter(
     prefix="/reminders",
     tags=["reminders"],
@@ -25,7 +26,7 @@ router = APIRouter(
 
 # Helper functions (updated for authorization and error handling)
 async def get_reminder_by_id_internal(reminder_id: str, current_user: UserInDB) -> Optional[dict]:
-    """Get a reminder by ID and check authorization"""
+    """Helper: Get a reminder by ID, internal use, includes authorization."""
     try:
         reminder_doc = db.collection('reminders').document(reminder_id).get()
         if not reminder_doc.exists:
@@ -55,6 +56,7 @@ async def get_reminder_by_id_internal(reminder_id: str, current_user: UserInDB) 
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An unexpected error occurred: {str(e)}")
 
 # Routes (updated to use authentication, authorization, error handling, and server timestamps)
+# API Endpoint: Create a new reminder
 @router.post("/", response_model=ReminderInDB, status_code=status.HTTP_201_CREATED)
 async def create_reminder(reminder_create: ReminderCreate, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -117,6 +119,7 @@ async def create_reminder(reminder_create: ReminderCreate, current_user: UserInD
             detail=f"An unexpected error occurred during reminder creation: {str(e)}"
         )
 
+# API Endpoint: Get all reminders for a specific care profile
 @router.get("/care_profile/{care_profile_id}", response_model=List[ReminderInDB])
 async def get_care_profile_reminders(
     care_profile_id: str,
@@ -161,6 +164,7 @@ async def get_care_profile_reminders(
             detail=f"An unexpected error occurred: {str(e)}"
         )
 
+# API Endpoint: Get a specific reminder by its ID
 @router.get("/{reminder_id}", response_model=ReminderInDB)
 async def get_reminder(reminder_id: str, current_user: UserInDB = Depends(get_authenticated_user)):
     # Use the helper function which includes authorization
@@ -173,6 +177,7 @@ async def get_reminder(reminder_id: str, current_user: UserInDB = Depends(get_au
     # Authorization check is handled within get_reminder_by_id_internal
     return ReminderInDB(**reminder_obj) # Return as Pydantic model
 
+# API Endpoint: Update an existing reminder
 @router.put("/{reminder_id}", response_model=ReminderInDB)
 async def update_reminder(
     reminder_id: str,
@@ -226,6 +231,7 @@ async def update_reminder(
             detail="An unexpected error occurred during reminder update"
         )
 
+# API Endpoint: Delete a reminder
 @router.delete("/{reminder_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_reminder(
     reminder_id: str,

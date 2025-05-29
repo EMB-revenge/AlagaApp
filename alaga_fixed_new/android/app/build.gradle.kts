@@ -47,5 +47,5 @@ flutter {
 
 // Add this dependencies block if it doesn't exist, or add the line to it if it does
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4") // Or the latest version
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4") // Or the latest version
 }

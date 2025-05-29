@@ -19,12 +19,14 @@ from ..models.medication_model import (
 from .users import get_authenticated_user # Assuming get_authenticated_user is in users.py
 from ..models.user_model import UserInDB # Import UserInDB
 
+# Router for medication operations
 router = APIRouter(
     prefix="/medications",
     tags=["medications"],
 )
 
 # Helper function to check if the current user is authorized to access a care profile
+# Helper: Authorize if the current user can access a given care profile
 async def authorize_care_profile_access(care_profile_id: str, current_user: UserInDB):
     try:
         care_profile_doc = db.collection('care_profiles').document(care_profile_id).get()
@@ -51,6 +53,7 @@ async def authorize_care_profile_access(care_profile_id: str, current_user: User
 
 
 # Helper functions (updated to use specific exceptions and authorization)
+# Helper: Get medication by ID, internal use, includes authorization
 async def get_medication_by_id_internal(medication_id: str, current_user: UserInDB) -> Optional[dict]:
     try:
         medication_doc = db.collection('medications').document(medication_id).get()
@@ -75,6 +78,7 @@ async def get_medication_by_id_internal(medication_id: str, current_user: UserIn
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An unexpected error occurred: {str(e)}")
 
 # Routes
+# API Endpoint: Create a new medication entry
 @router.post("/", response_model=MedicationInDB, status_code=status.HTTP_201_CREATED)
 async def create_medication(medication_create: MedicationCreate, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -126,6 +130,7 @@ async def create_medication(medication_create: MedicationCreate, current_user: U
             detail=f"An unexpected error occurred during medication creation: {str(e)}"
         )
 
+# API Endpoint: Get all medications for a specific care profile
 @router.get("/care_profile/{care_profile_id}", response_model=List[MedicationInDB])
 async def get_care_profile_medications(care_profile_id: str, active_only: Optional[bool] = None, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -162,6 +167,7 @@ async def get_care_profile_medications(care_profile_id: str, active_only: Option
             detail=f"An unexpected error occurred: {str(e)}"
         )
 
+# API Endpoint: Get medications scheduled for today for a specific care profile
 @router.get("/today/{care_profile_id}", response_model=List[MedicationInDB])
 async def get_today_medications(care_profile_id: str, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -234,6 +240,7 @@ async def get_today_medications(care_profile_id: str, current_user: UserInDB = D
             detail=f"An unexpected error occurred: {str(e)}"
         )
 
+# API Endpoint: Get a specific medication by its ID
 @router.get("/{medication_id}", response_model=MedicationInDB)
 async def get_medication(medication_id: str, current_user: UserInDB = Depends(get_authenticated_user)):
     medication_data = await get_medication_by_id_internal(medication_id, current_user) # Pass current_user for auth check
@@ -245,6 +252,7 @@ async def get_medication(medication_id: str, current_user: UserInDB = Depends(ge
     # Pydantic model handles conversion from Firestore data
     return MedicationInDB(**medication_data)
 
+# API Endpoint: Update an existing medication
 @router.put("/{medication_id}", response_model=MedicationInDB)
 async def update_medication(medication_id: str, medication_update: MedicationUpdate, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -298,6 +306,7 @@ async def update_medication(medication_id: str, medication_update: MedicationUpd
             detail="An unexpected error occurred during medication update"
         )
 
+# API Endpoint: Delete a medication
 @router.delete("/{medication_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_medication(medication_id: str, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -336,6 +345,7 @@ async def delete_medication(medication_id: str, current_user: UserInDB = Depends
             detail="An unexpected error occurred during medication deletion"
         )
 
+# API Endpoint: Log that a medication has been taken and update inventory
 @router.post("/log", response_model=MedicationLogInDB, status_code=status.HTTP_201_CREATED)
 async def log_medication_taken(log_create: MedicationLogCreate, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -406,6 +416,7 @@ async def log_medication_taken(log_create: MedicationLogCreate, current_user: Us
             detail="An unexpected error occurred during medication logging"
         )
 
+# API Endpoint: Get all medication logs for a specific medication, with optional date filtering
 @router.get("/log/medication/{medication_id}", response_model=List[MedicationLogInDB])
 async def get_medication_logs_for_medication(medication_id: str, start_date: Optional[date] = None, end_date: Optional[date] = None, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -457,6 +468,7 @@ async def get_medication_logs_for_medication(medication_id: str, start_date: Opt
             detail="An unexpected error occurred retrieving medication logs"
         )
 
+# API Endpoint: Get all medication logs for a specific care profile, with optional date filtering
 @router.get("/log/care_profile/{care_profile_id}", response_model=List[MedicationLogInDB])
 async def get_care_profile_medication_logs(care_profile_id: str, start_date: Optional[date] = None, end_date: Optional[date] = None, current_user: UserInDB = Depends(get_authenticated_user)):
     try:

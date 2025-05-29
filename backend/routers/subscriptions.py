@@ -27,6 +27,7 @@ from ..models.user_model import UserInDB # Import UserInDB
 # Import FieldValue for server timestamps
 from google.cloud.firestore import FieldValue
 
+# Router for subscription-related operations
 router = APIRouter(
     prefix="/subscriptions",
     tags=["subscriptions"],
@@ -35,6 +36,7 @@ router = APIRouter(
 
 # Helper functions
 # Made async and added error handling and authorization check
+# Helper function: Get a subscription by user ID with authorization check
 async def get_subscription_by_user_id_authorized(user_id: str, current_user: UserInDB) -> Optional[SubscriptionInDB]:
     """Get a subscription by user ID and check if it belongs to the current user"""
     # Authorization check: Ensure the requested user_id matches the authenticated user's ID
@@ -68,6 +70,7 @@ async def get_subscription_by_user_id_authorized(user_id: str, current_user: Use
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An unexpected error occurred: {str(e)}")
 
 # Routes
+# API Endpoint: Create a new subscription for the current user
 @router.post("/", response_model=SubscriptionInDB, status_code=status.HTTP_201_CREATED)
 async def create_subscription(subscription: SubscriptionCreate, current_user: UserInDB = Depends(get_authenticated_user)):
     """Create a new subscription for the current user"""
@@ -126,6 +129,7 @@ async def create_subscription(subscription: SubscriptionCreate, current_user: Us
             detail=f"An unexpected error occurred: {str(e)}"
         )
 
+# API Endpoint: Get the current user's subscription
 @router.get("/me", response_model=SubscriptionInDB)
 async def get_my_subscription(current_user: UserInDB = Depends(get_authenticated_user)):
     """Get the current user's subscription"""
@@ -182,6 +186,7 @@ async def get_my_subscription(current_user: UserInDB = Depends(get_authenticated
     
     return subscription
 
+# API Endpoint: Update the current user's subscription
 @router.put("/me", response_model=SubscriptionInDB)
 async def update_my_subscription(subscription_update: SubscriptionUpdate, current_user: UserInDB = Depends(get_authenticated_user)):
     """Update the current user's subscription"""
@@ -245,6 +250,7 @@ async def update_my_subscription(subscription_update: SubscriptionUpdate, curren
             detail=f"An unexpected error occurred during subscription update: {str(e)}"
         )
 
+# API Endpoint: Upgrade the current user's subscription to premium
 @router.post("/upgrade-to-premium", response_model=SubscriptionInDB)
 async def upgrade_to_premium(current_user: UserInDB = Depends(get_authenticated_user)):
     """Upgrade the current user's subscription to premium"""
@@ -261,6 +267,7 @@ async def upgrade_to_premium(current_user: UserInDB = Depends(get_authenticated_
     # Call the update endpoint logic to handle the update and return
     return await update_my_subscription(subscription_update, current_user)
 
+# API Endpoint: Get the features for each subscription tier
 @router.get("/features", response_model=dict)
 async def get_subscription_features():
     """Get the features for each subscription tier"""

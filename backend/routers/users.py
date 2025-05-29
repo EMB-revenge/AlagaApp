@@ -7,6 +7,7 @@ import uuid
 from ..models.user_model import UserBase, UserCreate, UserUpdate, UserInDB # UserFirestore might be more accurate for Firestore interactions
 from pydantic import BaseModel # Keep BaseModel for UserLogin and TokenData if not moved
 
+# Router for user-related operations
 router = APIRouter(
     prefix="/users",
     tags=["users"],
@@ -30,6 +31,7 @@ class UserLogin(BaseModel):
 #     email: str
 
 # Dependency to get the authenticated user
+# Dependency: Get the authenticated user from Firebase ID token
 async def get_authenticated_user(id_token: str = Header(None)) -> UserInDB:
     if not id_token:
         raise HTTPException(
@@ -93,6 +95,7 @@ async def get_authenticated_user(id_token: str = Header(None)) -> UserInDB:
         )
 
 # Helper functions (updated to use specific exceptions)
+# Helper function: Get user details by ID from Firestore
 def get_user_by_id(user_id: str):
     try:
         user_doc = db.collection('users').document(user_id).get()
@@ -107,6 +110,7 @@ def get_user_by_id(user_id: str):
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {str(e)}")
 
 # Routes
+# API Endpoint: Register a new user
 @router.post("/register", response_model=UserInDB, status_code=status.HTTP_201_CREATED)
 async def register_user(user: UserCreate):
     try:
@@ -180,6 +184,7 @@ async def register_user(user: UserCreate):
             detail="An unexpected error occurred during registration"
         )
 
+# API Endpoint: Login a user (primarily handled by frontend with Firebase Auth)
 @router.post("/login", response_model=dict) # Change response model to dict as we don't return TokenData
 async def login_user(user_credentials: UserLogin):
     # In a real application using Firebase Authentication, the frontend
@@ -226,6 +231,7 @@ async def login_user(user_credentials: UserLogin):
         )
 
 # Update /me endpoint to use the authentication dependency
+# API Endpoint: Get current authenticated user's details
 @router.get("/me", response_model=UserInDB)
 async def get_current_user(current_user: UserInDB = Depends(get_authenticated_user)):
     # The authenticated user object is provided by the dependency
@@ -233,6 +239,7 @@ async def get_current_user(current_user: UserInDB = Depends(get_authenticated_us
     return current_user
 
 # Update /me PUT endpoint to use the authentication dependency
+# API Endpoint: Update current authenticated user's details
 @router.put("/me", response_model=UserInDB)
 async def update_user(user_update: UserUpdate, current_user: UserInDB = Depends(get_authenticated_user)):
     try:
@@ -283,6 +290,7 @@ async def update_user(user_update: UserUpdate, current_user: UserInDB = Depends(
         )
 
 # Update /me DELETE endpoint to use the authentication dependency
+# API Endpoint: Delete current authenticated user
 @router.delete("/me", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(current_user: UserInDB = Depends(get_authenticated_user)):
     try:

@@ -27,6 +27,7 @@ from google.cloud.firestore import FieldValue
 
 from ..main import db
 
+# Router for managing calendar events
 router = APIRouter(
     prefix="/calendar",
     tags=["calendar"],
@@ -34,6 +35,7 @@ router = APIRouter(
 )
 
 # Helper functions
+# Helper function to retrieve a calendar event by its ID with authorization check
 async def get_calendar_event_by_id(event_id: str, current_user: UserInDB) -> Optional[CalendarEventInDB]:
     """Get a calendar event by ID and check authorization"""
     try:
@@ -69,6 +71,7 @@ async def get_calendar_event_by_id(event_id: str, current_user: UserInDB) -> Opt
         print(f"Unexpected error in get_calendar_event_by_id: {e}")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An unexpected error occurred: {str(e)}")
 
+# Helper function to get all events for a user and care profile within a specified date range
 async def get_events_by_date_range(current_user: UserInDB, care_profile_id: str, start_date: date, end_date: date) -> List[CalendarEventInDB]:
     """Get all events for a user and care profile within a date range"""
     try:
@@ -129,6 +132,7 @@ async def get_events_by_date_range(current_user: UserInDB, care_profile_id: str,
         print(f"Unexpected error in get_events_by_date_range: {e}")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An unexpected error occurred: {str(e)}")
 
+# Helper function to get all events for a user and care profile on a specific date
 async def get_events_by_date(current_user: UserInDB, care_profile_id: str, date: date) -> List[CalendarEventInDB]:
     """Get all events for a user and care profile on a specific date"""
     return await get_events_by_date_range(current_user, care_profile_id, date, date)
@@ -144,6 +148,7 @@ async def get_events_by_date(current_user: UserInDB, care_profile_id: str, date:
 #     return has_enhanced_calendar
 
 # Routes
+# Endpoint to create a new calendar event
 @router.post("/events", response_model=CalendarEventInDB, status_code=status.HTTP_201_CREATED)
 async def create_calendar_event(event: CalendarEventCreate, current_user: UserInDB = Depends(get_authenticated_user)):
     """Create a new calendar event"""
@@ -198,6 +203,7 @@ async def create_calendar_event(event: CalendarEventCreate, current_user: UserIn
             detail=f"An unexpected error occurred during event creation: {str(e)}"
         )
 
+# Endpoint to get a specific calendar event by its ID
 @router.get("/events/{event_id}", response_model=CalendarEventInDB)
 async def get_calendar_event(event_id: str, current_user: UserInDB = Depends(get_authenticated_user)):
     """Get a calendar event by ID"""
@@ -213,6 +219,7 @@ async def get_calendar_event(event_id: str, current_user: UserInDB = Depends(get
     
     return event
 
+# Endpoint to update an existing calendar event
 @router.put("/events/{event_id}", response_model=CalendarEventInDB)
 async def update_calendar_event(event_id: str, event_update: CalendarEventUpdate, current_user: UserInDB = Depends(get_authenticated_user)):
     """Update a calendar event"""
@@ -265,6 +272,7 @@ async def update_calendar_event(event_id: str, event_update: CalendarEventUpdate
             detail="An unexpected error occurred during event update"
         )
 
+# Endpoint to delete a calendar event
 @router.delete("/events/{event_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_calendar_event(event_id: str, current_user: UserInDB = Depends(get_authenticated_user)):
     """Delete a calendar event"""
@@ -303,6 +311,7 @@ async def delete_calendar_event(event_id: str, current_user: UserInDB = Depends(
             detail="An unexpected error occurred during event deletion"
         )
 
+# Endpoint to get all calendar events for a specific day for a care profile
 @router.get("/events/day/{date}", response_model=CalendarDay)
 async def get_day_events(
     care_profile_id: str,
@@ -318,6 +327,7 @@ async def get_day_events(
         events=events
     )
 
+# Endpoint to get all calendar events for a specific month for a care profile
 @router.get("/events/month/{year}/{month}", response_model=CalendarMonth)
 async def get_month_events(
     year: int,
@@ -367,6 +377,7 @@ async def get_month_events(
             detail=f"An unexpected error occurred: {str(e)}"
         )
 
+# Endpoint to get all calendar events for the current day for a care profile
 @router.get("/events/today", response_model=CalendarDay)
 async def get_today_events(
     care_profile_id: str,
@@ -382,6 +393,7 @@ async def get_today_events(
         events=events
     )
 
+# Endpoint to mark the status of a calendar event (e.g., completed, cancelled)
 @router.post("/events/mark-status/{event_id}", response_model=CalendarEventInDB)
 async def mark_event_status(
     event_id: str,
