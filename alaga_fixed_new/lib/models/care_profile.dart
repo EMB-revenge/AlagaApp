@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Represents a person being cared for (like an elderly family member)
 class CareProfile {
   final String id;
   final String name;
@@ -23,6 +24,7 @@ class CareProfile {
     required this.updatedAt,
   });
 
+  // Convert Firestore document to CareProfile object
   factory CareProfile.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return CareProfile(
@@ -38,6 +40,7 @@ class CareProfile {
     );
   }
 
+  // Convert CareProfile object to Firestore document format
   Map<String, dynamic> toFirestore() {
     return {
       'name': name,

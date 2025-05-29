@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'constants.dart';
 
+// Helper class to format dates and times consistently throughout the app
 class DateFormatter {
   static final DateFormat _dateFormat = DateFormat(AppConstants.dateFormat);
   static final DateFormat _timeFormat = DateFormat(AppConstants.timeFormat);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// App theme configuration with colors and styles
 class AppTheme {
   // Primary colors
   static const Color primaryColor = Color(0xFF6B5B95); // Purple

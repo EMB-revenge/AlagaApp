@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Reusable app bar with consistent styling across screens
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onBackPressed;

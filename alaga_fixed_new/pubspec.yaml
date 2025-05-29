@@ -44,7 +44,7 @@ dependencies:
   cached_network_image: ^3.3.0
 
   # Notifications
-  flutter_local_notifications: ^16.3.2
+  flutter_local_notifications: ^19.2.1
 
   # Utilities
   uuid: ^4.2.1

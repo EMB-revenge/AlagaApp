@@ -1,3 +1,4 @@
+// All text strings and constants used throughout the app
 class AppConstants {
   // App Information
   static const String appName = 'Alaga Care';

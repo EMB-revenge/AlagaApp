@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Navigation bar at the bottom with Home, Medications, and Profile tabs
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;

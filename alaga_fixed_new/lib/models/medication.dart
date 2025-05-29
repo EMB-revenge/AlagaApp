@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Different states a medication can be in
 enum MedicationStatus {
-  pending,
-  taken,
-  skipped,
-  missed
+  pending,  // Not yet time to take
+  taken,    // Successfully taken
+  skipped,  // Intentionally skipped
+  missed    // Forgot to take
 }
 
+// Represents a single medication with its schedule and status
 class Medication {
   final String id;
   final String name;
@@ -32,6 +34,7 @@ class Medication {
     required this.updatedAt,
   });
 
+  // Create Medication object from Firestore document
   factory Medication.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Medication(
@@ -48,6 +51,7 @@ class Medication {
     );
   }
 
+  // Convert Medication object to Firestore document format
   Map<String, dynamic> toFirestore() {
     return {
       'name': name,
@@ -62,6 +66,7 @@ class Medication {
     };
   }
 
+  // Helper method to convert string status to enum
   static MedicationStatus _statusFromString(String status) {
     switch (status) {
       case 'taken':
@@ -75,6 +80,7 @@ class Medication {
     }
   }
 
+  // Create a copy of this medication with some fields changed
   Medication copyWith({
     String? id,
     String? name,

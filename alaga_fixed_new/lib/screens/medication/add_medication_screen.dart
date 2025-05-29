@@ -10,6 +10,7 @@ import '../../utils/constants.dart';
 import '../../utils/date_formatter.dart';
 import '../../widgets/custom_app_bar.dart';
 
+// Screen with a form to add new medications
 class AddMedicationScreen extends StatefulWidget {
   final CareProfile careProfile;
 

@@ -11,6 +11,7 @@ import '../../services/medication_service.dart';
 import '../../utils/error_handler.dart';
 import 'add_medication_screen.dart';
 
+// Screen that shows all medications for a specific person
 class MedicationListScreen extends StatefulWidget {
   final CareProfile careProfile;
 
