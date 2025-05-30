@@ -43,7 +43,7 @@ app.include_router(vitals.router, prefix="/api")
 
 @app.get("/api")
 async def root():
-    return {"message": "Welcome to the AlagaApp API!"}
+    return {"message": "Welcome to the AlagaApp!"}
 
 # To run the app using Uvicorn:
 # uvicorn backend.main:app --reload (from the alaga_app directory)
